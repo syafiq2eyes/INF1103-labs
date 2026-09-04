@@ -29,9 +29,9 @@ print("Day 3:  ", followers)
 
 #####Activity 4
 
-username = input("Enter Username: ")
-age = input("Enter Age: ")
-category = input("Enter Content Category: ")
+username = input("Enter Username:  ")
+age = input("Enter Age:  ")
+category = input("Enter Content Category:  ")
 
 print ("\nInstagram Profile")
 print("===============")
