@@ -41,9 +41,9 @@ print("Category: ", category)
 
 #####Activity 5
 
-username = input("Enter Username: ")
-age = int(input("Enter Age: "))
-category = input("Enter Content Category: ")
+username = input("Enter Username:  ")
+age = int(input("Enter Age:  "))
+category = input("Enter Content Category:  ")
 
 print ("\nInstagram Profile")
 print("===============")
