@@ -6,7 +6,7 @@ print("======================")
 
 #####Activity 2
 
-username = "cool_creator"
+username = "cool_creatorr"
 bio = "Fun Blogger"
 followers = 100
 
