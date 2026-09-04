@@ -1,8 +1,8 @@
-#####Activity 1
-print("=====================")
+######Activity 1
+print("======================")
 print("Welcome Here")
 print ("My First Post")
-print("=====================")
+print("======================")
 
 #####Activity 2
 
