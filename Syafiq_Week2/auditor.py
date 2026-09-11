@@ -15,12 +15,12 @@ while True:
         print("Failed/Rejected Entries:", failed_entries)
         break
 
-    if not entry.isdigit():
-        print("Error: Please enter a valid positive integer.")
+    try:
+        quantity = int(entry)
+    except ValueError:
+        print("Error: Please enter a valid integer.")
         failed_entries += 1
         continue
-
-    quantity = int(entry)
 
 
     if quantity < 0:
