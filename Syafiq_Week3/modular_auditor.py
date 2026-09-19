@@ -4,16 +4,15 @@ tax_rate = 0.10
 inventory = 0
 failed_entries = 0
 total_units_processed = 0
+total_deliveries_processed = 0
 delivery_amount = 0
  
 def get_valid_input():
     entry = input("Enter Stock Quantity: ")
 
     if entry.lower() == "quit":
-        print("Final Inventory:", inventory)
-        print("Total Units Processed:", total_units_processed)
-        print("Failed/Rejected Entries:", failed_entries)
-        
+        return "quit"
+
         try:
             quantity = int(entry)
         except ValueError:
@@ -38,7 +37,13 @@ def get_valid_input():
 def calculate_tax(amount):
     return amount * tax_rate
 
-
+def generate_report():
+    print("==========Report==========")
+    print("Final Inventory: ", inventory)
+    print("Total Units Processed: ", total_units_processed)
+    print("Total Deliveries Processed: ", total_deliveries_processed)
+    print("Failed/Rejected Entries: ", failed_entries)    
+        
 
 
 print("Inventory Auditor Started. Type 'quit' to exit." )
@@ -46,7 +51,6 @@ print("Inventory Auditor Started. Type 'quit' to exit." )
 while True:
     
     entry = get_valid_input()
-
 
     print(f"stock added. Current inventory: {inventory}") 
 
