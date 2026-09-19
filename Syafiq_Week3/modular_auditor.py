@@ -33,8 +33,12 @@ def get_valid_input():
         
     inventory += quantity
     total_units_processed += quantity
-        
-        
+
+
+def calculate_tax(amount):
+    return amount * tax_rate
+
+
 
 
 print("Inventory Auditor Started. Type 'quit' to exit." )
