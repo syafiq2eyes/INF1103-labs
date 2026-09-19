@@ -4,8 +4,7 @@ tax_rate = 0.10
 inventory = 0
 failed_entries = 0
 total_units_processed = 0
-total_deliveries_processed = 0
-delivery_amount = 0
+total_deliveries = 0
  
 def get_valid_input():
     entry = input("Enter Stock Quantity: ")
@@ -13,26 +12,17 @@ def get_valid_input():
     if entry.lower() == "quit":
         return "quit"
 
-        try:
-            quantity = int(entry)
-        except ValueError:
-            print("Error: Please enter a valid integer.")
-            failed_entries += 1
-            return None
+    try:
+        quantity = int(entry)
+    except ValueError:
+        print("Error: Please enter a valid integer.")
+        return None
 
     if quantity < 0:
         print("Error: Negative values are not allowed.")
-        failed_entries += 1
         return None
-        
-    if inventory + quantity > max_capacity:
-        print(f"Error: Adding {quantity} exceeds storage Capacity. {max_capacity}")
-        failed_entries += 1
-        return None
-        
-    inventory += quantity
-    total_units_processed += quantity
 
+    return quantity
 
 def calculate_tax(amount):
     return amount * tax_rate
@@ -41,25 +31,40 @@ def generate_report():
     print("==========Report==========")
     print("Final Inventory: ", inventory)
     print("Total Units Processed: ", total_units_processed)
-    print("Total Deliveries Processed: ", total_deliveries_processed)
+    print("Total Deliveries Processed: ", total_deliveries)
     print("Failed/Rejected Entries: ", failed_entries)    
+    #print("Total Tax Amount: ")
         
-
-
 print("Inventory Auditor Started. Type 'quit' to exit." )
 
 while True:
     
     entry = get_valid_input()
 
-    print(f"stock added. Current inventory: {inventory}") 
+    if entry == "quit":
+        generate_report()
+        break
+
+    if entry is None:
+        failed_entries += 1
+        continue
+
+    if inventory + entry > max_capacity:
+        print(f"Error: Adding {entry} exceeds storage Capacity. {max_capacity}")
+        failed_entries += 1
+        continue
+        
+    inventory += entry
+    total_units_processed += entry
+    total_deliveries += 1
+
+    tax = calculate_tax(entry)
+    print(f"Stock added. Current inventory: {inventory}") 
+    print(f"Tax for this delivery: {tax:.2f}")
 
     if inventory > 500:
         print("ALERT: Inventory exceeded 500 units. Stopping auditor immediately.")
-        print("\n--- Report ---")
-        print("Final Inventory:", inventory)
-        print("Total Units Processed:", total_units_processed)
-        print("Failed/Rejected Entries:", failed_entries)
+        generate_report()
         break
 
 
