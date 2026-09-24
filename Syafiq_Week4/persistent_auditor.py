@@ -9,6 +9,7 @@ inventory = 0
 failed_entries = 0
 total_units_processed = 0
 total_deliveries = 0
+history = []
  
 def get_valid_input():
     entry = input("Enter Stock Quantity: ")
@@ -36,7 +37,8 @@ def generate_report():
     print("Final Inventory: ", inventory)
     print("Total Units Processed: ", total_units_processed)
     print("Total Deliveries Processed: ", total_deliveries)
-    print("Failed/Rejected Entries: ", failed_entries)    
+    print("Failed/Rejected Entries: ", failed_entries)  
+    print("Transaction History: ", history)  
     #print("Total Tax Amount: ")
 
 if os.path.exists(inventory_file):
@@ -76,6 +78,7 @@ while True:
     inventory += entry
     total_units_processed += entry
     total_deliveries += 1
+    history.append(entry)
 
     tax = calculate_tax(entry)
     print(f"Stock added. Current inventory: {inventory}") 
