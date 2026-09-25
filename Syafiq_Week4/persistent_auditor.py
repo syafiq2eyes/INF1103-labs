@@ -38,13 +38,25 @@ def generate_report():
     print("Total Units Processed: ", total_units_processed)
     print("Total Deliveries Processed: ", total_deliveries)
     print("Failed/Rejected Entries: ", failed_entries)  
-    print("Transaction History: ", history)  
-    #print("Total Tax Amount: ")
+    print("Transaction History: ", history) 
+
+def save_to_file():
+    with open(inventory_file, "w") as f:
+        f.write(f"Final Inventory: {inventory}\n")
+        f.write(f"Total Units Processed: {total_units_processed}\n")
+        f.write(f"Total Deliveries Processed: {total_deliveries}\n")
+        f.write(f"Failed/Rejected Entries: {failed_entries}\n")
+        f.write("Transaction History: \n")
+        for i, amount in enumerate(history, 1):
+            tax = calculate_tax(amount)
+            f.write(f"Delivery {i}: Amount = {amount}, Tax={tax:.2f}\n")
+        print(f"Inventory and history saved to {inventory_file}") 
 
 if os.path.exists(inventory_file):
     with open(inventory_file, "r") as f:
+        first_line = f.readline().strip()
         try:
-            inventory = int(f.read().strip())
+            inventory = int(first_line.split(":")[-1].strip())
         except ValueError:
             inventory = 0
 else:
@@ -61,9 +73,7 @@ while True:
 
     if entry == "quit":
         generate_report()
-        with open(inventory_file, "w") as f:
-                f.write(str(inventory))
-        print(f"Inventory saved to {inventory_file}")
+        save_to_file()
         break
 
     if entry is None:
@@ -87,10 +97,7 @@ while True:
     if inventory > 500:
         print("ALERT: Inventory exceeded 500 units. Stopping auditor immediately.")
         generate_report()
-
-        with open(inventory_file, "w") as f:
-            f.write(str(inventory))
-        print(f"Inventory saved to {inventory_file}")
+        save_to_file()
         break
 
 
