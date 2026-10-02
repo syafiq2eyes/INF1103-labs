@@ -65,6 +65,35 @@ def save_inventory(inventory):
 
 ######################################################################
 
+## Data Manipulation
+
+def add_product(inventory):
+    """Ask for the details of a new product and add it to the inventory."""
+    print("\nAdd New Product")
+    product_id = input("Product ID: ").strip().upper()
+    if not product_id:
+        print("\nProduct ID cannot be empty.")
+        return
+    if find_product(inventory, product_id):
+        print("\nProduct ID already exists. Product not added.")
+        return
+
+    name = input("Product Name: ").strip()
+    if not name:
+        print("\nProduct name cannot be empty.")
+        return
+    price = get_number("Price: ", float)
+    stock = get_number("Stock Quantity: ", int)
+
+    inventory.append({
+        "id": product_id,
+        "name": name,
+        "price": price,
+        "stock": stock,
+        "history": [stock],
+    })
+    print("\nProduct Added Successfully!")
+
 
 
 
