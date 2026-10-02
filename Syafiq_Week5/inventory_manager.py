@@ -29,7 +29,25 @@ def get_number(prompt, cast, minimum=0):
             continue
         return value
 
+def load_inventory():
+    """Load Inventory.json if it exists. Otherwise begin with an empty list."""
+    if not os.path.exists(FILENAME):
+        print(f"{FILENAME} not found. Starting with an empty inventory.")
+        return []
+    print(f"{FILENAME} found! ")
+    try:  
+        with open(FILENAME, "r") as file:
+            inventory = json.load(file)
+        for product in inventory:
+            ####
+            product.setdefault("history", [product["stock"]])
 
+    except (json.JSONDecodeError, OSError, TypeError, KeyError, AttributeError):
+        print("Could not read the inventory file. Starting with an empty inventory.")
+        return []
+
+    print("Inventory Loaded Successfully!")
+    return []
 
 
 
