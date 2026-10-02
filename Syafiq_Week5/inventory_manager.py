@@ -130,8 +130,18 @@ def search_product(inventory):
     print(f"Stock: {product['stock']}")
     print(LINE)
 
-    
-
+def display_all(inventory):
+    """show every product in the inventory."""
+    print("\nCurrent Inventory")
+    print(LINE)
+    if not inventory:
+        print("No Products in inventory.")
+    for product in inventory:
+        print(
+            f"ID: {product['id']} | Name: {product['name']} | "
+            f"Price: ${product['price']:.2f} | Stock: {product['stock']}"
+        )
+    print(LINE)
 
 
 
