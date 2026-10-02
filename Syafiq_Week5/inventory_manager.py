@@ -113,9 +113,24 @@ def update_stock(inventory):
     product["history"].append(new_stock - product["stock"])
     product["stock"] = new_stock
     print("\nStock updated successfully!")
+
+def search_product(inventory):
+    """Find a product by ID and show its details."""
+    print("\nSearch Product")
+    product = find_product(inventory, input("Enter Product ID: "))
+    if product is None:
+        print("\n Product was not found. :(")
+        return
+
+    print("\nProduct Found!")
+    print(LINE)
+    print(f"ID: {product['id']}")
+    print(f"Name: {product['name']}")
+    print(f"Price: {product['price']:.2sf}")
+    print(f"Stock: {product['stock']}")
+    print(LINE)
+
     
-
-
 
 
 
