@@ -94,6 +94,21 @@ def add_product(inventory):
     })
     print("\nProduct Added Successfully!")
 
+def update_stock(inventory):
+    """Find a product by ID and set a new stock quantity."""
+    print("\nUpdate Stock")
+    product = find_product(inventory, input("Enter Product ID:"))
+    if product is None:
+        print("\nProduct not found! ")
+        return
+
+    print("\nProuct Found: ")
+    print(f"Name: {product['name']}")
+    print(f"Current Stock: {product['stock']}")
+
+    print()
+    new_stock = get_number("New Stock Quantity: ", int)
+
 
 
 
