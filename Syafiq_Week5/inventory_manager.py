@@ -29,6 +29,8 @@ def get_number(prompt, cast, minimum=0):
             continue
         return value
 
+###################################Inventory Management###################################
+
 def load_inventory():
     """Load Inventory.json if it exists. Otherwise begin with an empty list."""
     if not os.path.exists(FILENAME):
@@ -48,6 +50,28 @@ def load_inventory():
 
     print("Inventory Loaded Successfully!")
     return []
+
+
+def save_inventory(inventory):
+    """Write the inventory list to inventory.json Returns True on success."""
+    try:
+        with open(FILENAME, "w") as file:
+            json.dump(inventory, file, indent=4)
+        return True
+    except OSError:
+        print(f"Error: Could not write to {FILENAME}.")
+        return False
+
+
+######################################################################
+
+
+
+
+
+
+
+
 
 
 
