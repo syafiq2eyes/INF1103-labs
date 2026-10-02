@@ -8,6 +8,7 @@ LINE = "-" * 48
 
 def find_product(inventory, product_id):
     """Return the product with this ID (case-insensitive), or None."""
+    product_id = product_id.strip().upper()
     for product in inventory:
         if product["id"].upper() == product_id:
             return product
@@ -29,7 +30,7 @@ def get_number(prompt, cast, minimum=0):
             continue
         return value
 
-###################################Inventory Management###################################
+################################### Inventory Management ###################################
 
 def load_inventory():
     """Load Inventory.json if it exists. Otherwise begin with an empty list."""
@@ -49,8 +50,7 @@ def load_inventory():
         return []
 
     print("Inventory Loaded Successfully!")
-    return []
-
+    return inventory
 
 def save_inventory(inventory):
     """Write the inventory list to inventory.json Returns True on success."""
@@ -61,7 +61,6 @@ def save_inventory(inventory):
     except OSError:
         print(f"Error: Could not write to {FILENAME}.")
         return False
-
 
 ######################################################################
 
@@ -126,7 +125,7 @@ def search_product(inventory):
     print(LINE)
     print(f"ID: {product['id']}")
     print(f"Name: {product['name']}")
-    print(f"Price: {product['price']:.2sf}")
+    print(f"Price: ${product['price']:.2f}")
     print(f"Stock: {product['stock']}")
     print(LINE)
 
@@ -143,7 +142,7 @@ def display_all(inventory):
         )
     print(LINE)
 
-###################################Menu System###################################
+################################### Menu System ###################################
 
 print(f"\n{DIVIDER}")
 print("INVENTORY MANAGEMENT SYSTEM")
@@ -191,7 +190,4 @@ while True:
 
     else:
         print("\nInvalid Option. PLease enter a number from 1 to 6.")
-
-
-
 
