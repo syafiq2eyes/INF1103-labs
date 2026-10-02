@@ -109,7 +109,11 @@ def update_stock(inventory):
     print()
     new_stock = get_number("New Stock Quantity: ", int)
 
-
+    #Record how much the stock changed by, then update the running total
+    product["history"].append(new_stock - product["stock"])
+    product["stock"] = new_stock
+    print("\nStock updated successfully!")
+    
 
 
 
