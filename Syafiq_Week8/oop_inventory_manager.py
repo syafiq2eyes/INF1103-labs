@@ -1,8 +1,6 @@
 from product_class import Product
 from inventory_class import Inventory
-
-inventory = Inventory() #Create the inventory object form Inventory Class
-inventory.load_inventory() 
+from file_handling import File_Handling
 
 DIVIDER = "=" * 40
 LINE = "-" * 48
@@ -14,8 +12,8 @@ print("INVENTORY MANAGEMENT SYSTEM")
 print(f"\n{DIVIDER}")
 print()
 
-inventory = Inventory()
-inventory.load_inventory()
+file_handler = File_Handling() #Create the inventory object form File_Handling Class
+inventory = Inventory(file_handler.load_inventory())
 
 print("\n---------- MENU ----------")
 print("1. Display All Products")
@@ -56,12 +54,12 @@ while True:
 
     elif choice == "5":
         print("\nSaving Inventory...")
-        if inventory.save_inventory():
-            print(f"Inventory has been saved successfully to {inventory.FILENAME}")
+        if file_handler.save_inventory(inventory.products):
+            print(f"Inventory has been saved successfully to {file_handler.FILENAME}")
 
     elif choice == "6":
         print("\nSaving inventory before exit...")
-        if inventory.save_inventory():
+        if file_handler.save_inventory(inventory.products):
             print("Inventory saved successfully.")
         print("\nThank you for using Inventory Management System.")
         print("Program Terminated.")
