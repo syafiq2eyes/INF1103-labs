@@ -1,0 +1,14 @@
+[
+    {
+        "id": "P200",
+        "name": "Mouse2",
+        "price": 122.0,
+        "stock": 1
+    },
+    {
+        "id": "P122",
+        "name": "AppleBottomsGenes",
+        "price": 67.0,
+        "stock": 2
+    }
+]
