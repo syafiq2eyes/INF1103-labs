@@ -4,9 +4,9 @@ import os
 from product_class import Product
 
 class Inventory:
-    FILENAME = "inventory.json"
-    def __init__(self):
-        self.products = [] #List to store Product objects
+    
+    def __init__(self, products=None):
+        self.products = products or [] #List to store Product objects
 
     def add_product(self):
         """Ask for the details of a new product and add it to the inventory."""
@@ -45,32 +45,4 @@ class Inventory:
         else:
             for product in self.products:
                 print(f"ID: {product.get_product_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()}")
-
-    def load_inventory(self):
-        """Load products from inventory.json if it exists."""
-        if not os.path.exists(self.FILENAME):
-            print(f"{self.FILENAME} not found. Starting with an empty inventory.")
-            return
-        try:
-            with open(self.FILENAME, "r") as file:
-                data = json.load(file)
-            self.products = [
-                Product(d["id"], d["name"], d["price"], d["stock"])
-                for d in data
-            ]
-            print("Inventory loaded successfully!")
-        except (json.JSONDecodeError, OSError, TypeError, KeyError):
-            print("Could not read the inventory file. Starting with an empty inventory.")
-            self.products = []
-
-    def save_inventory(self):
-        """Write all products to inventory.json. Returns True on success."""
-        try:
-            data = [product.to_dict() for product in self.products]
-            with open(self.FILENAME, "w") as file:
-                json.dump(data, file, indent=4)
-            return True
-        except OSError:
-            print(f"Error: Could not write to {self.FILENAME}.")
-            return False
 
