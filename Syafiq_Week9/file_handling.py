@@ -1,6 +1,8 @@
 import json
 import os
 from product_class import Product
+from PhysicalProduct import PhysicalProduct
+from DigitalProduct import DigitalProduct
 
 class File_Handling:
     FILENAME = "inventory.json"
@@ -13,16 +15,27 @@ class File_Handling:
         try:
             with open(self.FILENAME, "r") as file:
                 data = json.load(file)
-            products = [
-                Product(d["id"], d["name"], d["price"], d["stock"])
-                for d in data
-            ]
-            print("Inventory loaded successfully!")
-            return products
-        except (json.JSONDecodeError, OSError, TypeError, KeyError):
+        except (json.JSONDecodeError, OSError):
             print("Could not read the inventory file. Starting with an empty inventory.")
             return []
+            
+        products = []
+        for d in data:
+            try:
+                if d["type"] == "physical":
+                    products.append(PhysicalProduct(
+                        d["id"], d["name"], d["price"], d["stock"], d["weight"]))
+                elif d["type"] == "digital":
+                    products.append(DigitalProduct(
+                            d["id"], d["name"], d["price"], d["stock"], d["download_size"]))
+                else:
+                    print(f"Skipped {d.get('id', '?')}: unknown type '{d['type']}'.")
+            except (KeyError, TypeError):
+                print(f"Skipped an entry that is missing required fields or has invalid data.")
 
+        print("Inventory Loaded Successfully!")    
+        return products
+    
     def save_inventory(self, products):
         """Write the given products to inventory.json. Returns True on success."""
         try:
