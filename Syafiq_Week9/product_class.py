@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 class Product:
     def __init__(self, product_id, name, price, stock):
         self.__product_id = product_id
@@ -34,5 +36,7 @@ class Product:
         self.__stock = quantity
 
 
-
-
+    @abstractmethod
+    def get_fulfilment_info(self):
+        """Return specific fulfilment information for the product."""
+        pass                              # No implementation
