@@ -1,7 +1,24 @@
 # Manage Collection of Products objects.
-import json
-import os
+import math
 from product_class import Product
+from DigitalProduct import DigitalProduct
+from PhysicalProduct import PhysicalProduct
+
+def get_number(prompt, cast, minimum=0):
+    """Keep asking until the user enters a valid, non-negative number."""
+    while True:
+        try:
+            value = cast(input(prompt))
+        except ValueError:
+            print("Invalid Input. Please enter a valid number.")
+            continue
+        if not math.isfinite(value):
+            print("Invalid Input. Please enter a number.")
+            continue
+        if value < minimum:
+            print(f"Invalid Input. Please enter a number greater than or equal to {minimum}.")
+            continue
+        return value
 
 class Inventory:
     
@@ -11,6 +28,13 @@ class Inventory:
     def add_product(self):
         """Ask for the details of a new product and add it to the inventory."""
         print("\nAdd New Product")
+        print("1. Physical Product")
+        print("2. Digital Product")
+        kind = input("Choose product type (1 or 2): ").strip()
+        if kind not in ("1", "2"):
+            print("Invalid choice. Product not added.")
+            return
+
         product_id = input("Product ID: ").strip().upper()
         if not product_id:
             print("\nProduct ID cannot be empty.")
@@ -24,12 +48,18 @@ class Inventory:
             print("\nProduct name cannot be empty.")
             return
 
-        uprice = input("Price: ").strip()
-        ustock = input("Stock Quantity: ").strip()
-        price = float(uprice) if uprice else 0.0
-        stock = int(ustock) if ustock else 0
+        price = get_number("Price: ", float)
+        stock = get_number("Stock Quantity: ", int)
 
-        self.products.append(Product(product_id, name, price, stock))
+        if kind == "1":
+            weight = get_number("Weight (kg): ", float)
+            product = PhysicalProduct(product_id, name, price, stock, weight)
+
+        else:
+            download_size = get_number("Download Size (MB): ", float)
+            product = DigitalProduct(product_id, name, price, stock, download_size)
+
+        self.products.append(product)
         print("\nProduct Added Successfully!")
 
     def search_product(self, product_id):
@@ -44,5 +74,5 @@ class Inventory:
             print("No Products in inventory!")
         else:
             for product in self.products:
-                print(f"ID: {product.get_product_id()} | Name: {product.get_name()} | Price: ${product.get_price():.2f} | Stock: {product.get_stock()}")
+                product.display_information()
 
