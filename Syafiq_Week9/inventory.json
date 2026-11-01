@@ -1,0 +1,18 @@
+[
+    {
+        "id": "P101",
+        "name": "Exclusive Merch",
+        "price": 89.0,
+        "stock": 250,
+        "type": "physical",
+        "weight": 2.0
+    },
+    {
+        "id": "P201",
+        "name": "Exclusive Merch Digital",
+        "price": 55.0,
+        "stock": 250,
+        "type": "digital",
+        "download_size": 2000.0
+    }
+]
