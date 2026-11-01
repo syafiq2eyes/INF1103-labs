@@ -21,7 +21,6 @@ def get_number(prompt, cast, minimum=0):
         return value
 
 class Inventory:
-    
     def __init__(self, products=None):
         self.products = products or [] #List to store Product objects
 
