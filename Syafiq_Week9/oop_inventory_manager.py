@@ -2,6 +2,8 @@ from product_class import Product
 from inventory_class import Inventory
 from file_handling import File_Handling
 from PhysicalProduct import PhysicalProduct
+from DigitalProduct import DigitalProduct
+from CanBeShipped import CanBeShipped
 
 DIVIDER = "=" * 40
 LINE = "-" * 48
@@ -68,8 +70,24 @@ while True:
 
     elif choice == "7":
         laptop = PhysicalProduct("P211", "Laptop", 1500.00, 5, 1.8)
-        laptop.display_information()
-        print(f"Weight: {laptop.get_weight()} kg")
+        ebook = DigitalProduct("D211", "E-Book", 15.00, 100, 200)
+
+        light = PhysicalProduct("P010", "Pen", 1.50, 10, 0.1)
+        medium = PhysicalProduct("P011", "Book", 12.00, 5, 1.0)
+        heavy = PhysicalProduct("P012", "Monitor", 250.00, 3, 6.5)
+        
+        for item in [laptop, ebook]:
+            item.display_information()
+            print(item.get_fulfilment_info())
+            print()
+
+        for item in [light, medium, heavy]:
+            print(f"{item.get_name()}: {item.get_weight()} kg, -> ${item.calculate_shipping_cost():.2f} shipping cost")
+
+        try:
+            CanBeShipped()
+        except TypeError as error:
+            print(error)  # This will raise an error because CanBeShipped is abstract and cannot be instantiated.
         
     else:
         print("\nInvalid Option. Please enter a number from 1 to 6.")
