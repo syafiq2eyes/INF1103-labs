@@ -11,3 +11,13 @@ class DigitalProduct(Product):
     def display_information(self):
         super().display_information()
         print(f"Download Size: {self.__download_size} MB")
+
+    def get_fulfilment_info(self):
+        return "This product is delivered digitally via download."
+
+    def to_dict(self):
+        """Return a dictionary representation of the DigitalProduct for JSON serialization."""
+        data = super().to_dict()
+        data["type"] = "digital"
+        data["download_size"] = self.__download_size
+        return data
