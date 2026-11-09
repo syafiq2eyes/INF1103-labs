@@ -1,5 +1,5 @@
 from product_class import Product
-from inventory_class import Inventory
+from inventory_class import Inventory, get_number
 from file_handling import File_Handling
 from PhysicalProduct import PhysicalProduct
 from DigitalProduct import DigitalProduct
@@ -7,6 +7,68 @@ from CanBeShipped import CanBeShipped
 from Supplier import Supplier
 from OrderLine import OrderLine
 from Order import Order
+
+suppliers: dict[str, Supplier] = {} #allows several products to share the same supplier object
+
+def choose_supplier() -> Supplier | None:
+    supplier_id = input("Enter Supplier ID: ").strip().upper()
+    if not supplier_id:
+        print("\nSupplier ID cannot be empty.")
+        return None
+    if supplier_id in suppliers:
+        print(f"Using existing supplier: {suppliers[supplier_id].get_name()}")
+        return suppliers[supplier_id]
+
+    name = input("Supplier Name: ").strip()
+    email = input("Supplier Email: ").strip()
+    if not name or not email:
+        print("\nSupplier Name and Email cannot be empty.")
+        return None
+    supplier = Supplier(supplier_id, name, email)
+    suppliers[supplier_id] = supplier
+    return supplier
+
+def add_product_menu(inventory: Inventory) -> None:
+    print("\nAdd New Product")
+    print("1. Physical product")
+    print("2. Digital product")
+    kind = input("Choose product type (1 or 2): ").strip()
+    if kind not in ("1", "2"):
+        print("\nInvalid product type. Product not added.")
+        return
+
+    product_id = input("Product ID: ").strip().upper()
+    if not product_id:
+        print("\nProduct ID cannot be empty.")
+        return
+    if inventory.find_product(product_id) is not None:
+        print("\nProduct ID already exists. Product not added.")
+        return
+
+    name = input("Product Name: ").strip()
+    if not name:
+        print("\nProduct name cannot be empty.")
+        return
+    price = get_number("Price: ", float)
+    stock = get_number("Stock Quantity: ", int)
+
+    supplier = choose_supplier()
+    if supplier is None:
+        print("Product not added.")
+        return
+
+    product: Product
+    if kind == "1":
+        weight = get_number("Weight (kg): ", float)
+        product = PhysicalProduct(product_id, name, price, stock, supplier, weight)
+    else:
+        download_size = get_number("Download Size (MB): ", float)
+        product = DigitalProduct(product_id, name, price, stock, supplier, download_size)
+
+    if inventory.add_product(product):
+        print(f"\nProduct {product_id} added successfully.")
+    else:
+        print(f"\nFailed to add product {product_id}.")
 
 DIVIDER = "=" * 40
 LINE = "-" * 48
@@ -20,6 +82,10 @@ print()
 
 file_handler = File_Handling() #Create the inventory object form File_Handling Class
 inventory = Inventory(file_handler.load_inventory())
+
+for product in inventory.products:
+    supplier = product.get_supplier()
+    suppliers[supplier.get_supplier_id()] = supplier  # Ensure suppliers are tracked
 
 print("\n---------- MENU ----------")
 print("1. Display All Products")
@@ -37,22 +103,20 @@ while True:
         inventory.display_all()
 
     elif choice == "2":
-        inventory.add_product()
+        add_product_menu(inventory)
 
     elif choice == "3":
-        user_update_stock_productID = input("Enter Product ID to update stock: ")
-        user_update_stock = int(input("Enter Quantity to update stock: "))
-
-        found_product = inventory.search_product(user_update_stock_productID)
-        if found_product:
-            found_product.update_stock(user_update_stock)
-            print("Stock updated successfully.")
-        else:
+        product = inventory.find_product(input("Enter Product ID to update stock: "))
+        if product is None:
             print("Product not found.")
+        else:
+            new_stock = get_number("New Stock Quantity: ", int)
+            product.update_stock(new_stock)
+            print("Stock updated successfully.")
 
     elif choice == "4":
         user_search_product = input("Enter Product ID to search: ")
-        found_product = inventory.search_product(user_search_product)
+        found_product = inventory.find_product(user_search_product)
         if found_product:
             found_product.display_information()
         else:
@@ -144,8 +208,8 @@ while True:
 
     #     ebook.get_supplier().display_information()
 
-    # else:
-    #     print("\nInvalid Option. Please enter a number from 1 to 6.")
+    else:
+        print("\nInvalid Option. Please enter a number from 1 to 6.")
 
     # inventory_a = Inventory()  
     # inventory_b = Inventory()
