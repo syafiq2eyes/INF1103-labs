@@ -2,7 +2,7 @@ from product_class import Product
 from CanBeShipped import CanBeShipped
 from Supplier import Supplier
 
-class PhysicalProduct(Product):
+class PhysicalProduct(Product, CanBeShipped):
     def __init__(self, product_id: str, name: str, price: float, stock: int, supplier: Supplier, weight: float) -> None:
         super().__init__(product_id, name, price, stock, supplier)
         self.__weight: float = weight  # Weight in kilograms
