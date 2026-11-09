@@ -29,6 +29,8 @@ class Inventory:
         """Ask for the details of a new product and add it to the inventory."""
         if self.find_product(product.get_product_id()) is not None:
             return False # Product already exists
+        self.products.append(product)
+        return True
 
     def remove_product(self, product_id: str) -> Product | None:
         """Remove the reference from this inventory and return it."""
