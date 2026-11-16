@@ -1,10 +1,13 @@
 from OrderLine import OrderLine
 from product_class import Product
+from DiscountStrategy import DiscountStrategy
+from NoDiscount import NoDiscount
 
 class Order:
-    def __init__(self, order_id: str) -> None:
+    def __init__(self, order_id: str, discount: DiscountStrategy | None = None) -> None:
         self.__order_id: str = order_id
         self.__order_lines: list[OrderLine] = []
+        self.__discount: DiscountStrategy = discount or NoDiscount()
 
     def get_order_id(self) -> str:
         return self.__order_id
@@ -35,4 +38,9 @@ class Order:
             line.display_information()
         print(f"Total: ${self.calculate_total():.2f}")
 
-    #def calculate_total(self)
+    def set_discount(self, discount: DiscountStrategy) -> None:
+        self.__discount = discount
+
+    def calculate_total(self) -> float:
+        total = sum((line.calculate_subtotal() for line in self.__order_lines), 0.0)
+        return self.__discount.apply(total)
