@@ -13,6 +13,8 @@ from BulkDiscount import BulkDiscount
 from Supplier import Supplier
 from StudentDiscount import StudentDiscount
 from ProductFactory import ProductFactory
+from product_loader import load_products
+from Supplier import Supplier
 
 suppliers: dict[str, Supplier] = {} #allows several products to share the same supplier object
 
@@ -228,6 +230,10 @@ while True:
         neworder_a = Order("0201", ten_percent)
         neworder_a.add_order_line(laptop,2)
         print(neworder_a.calculate_total())
+
+        inventory = Inventory()
+        load_products("products.csv", inventory, supplier)
+        inventory.display_all()
 
 
     #     for item in [laptop, ebook]:
