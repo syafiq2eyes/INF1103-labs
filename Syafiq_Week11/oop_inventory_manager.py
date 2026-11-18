@@ -16,6 +16,17 @@ from ProductFactory import ProductFactory
 
 suppliers: dict[str, Supplier] = {} #allows several products to share the same supplier object
 
+def get_positive_float(prompt: str) -> float:
+    while True:
+        try:
+            value = float(input(prompt))
+            if value <= 0:
+                print("Please enter a number greater than zero.")
+                continue
+            return value
+        except ValueError:
+            print("Please enter a valid number, eg. 12.50")
+
 def choose_supplier() -> Supplier | None:
     supplier_id = input("Enter Supplier ID: ").strip().upper()
     if not supplier_id:
@@ -55,7 +66,7 @@ def add_product_menu(inventory: Inventory) -> None:
     if not name:
         print("\nProduct name cannot be empty.")
         return
-    price = get_number("Price: ", float)
+    price = get_positive_float("Price: ")
     stock = get_number("Stock Quantity: ", int)
 
     supplier = choose_supplier()
