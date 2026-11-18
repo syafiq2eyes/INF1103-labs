@@ -1,0 +1,28 @@
+[
+    {
+        "id": "P001",
+        "name": "Super Laptop",
+        "price": 1800.0,
+        "stock": 20,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "ASUS",
+            "contact_email": "asus@gmail.com"
+        },
+        "type": "physical",
+        "weight": 8.0
+    },
+    {
+        "id": "D001",
+        "name": "XAMPP",
+        "price": 18.0,
+        "stock": 200,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "ASUS",
+            "contact_email": "asus@gmail.com"
+        },
+        "type": "digital",
+        "download_size": 200.0
+    }
+]
