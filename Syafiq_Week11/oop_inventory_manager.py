@@ -12,6 +12,7 @@ from PercentageDiscount import PercentageDiscount
 from BulkDiscount import BulkDiscount
 from Supplier import Supplier
 from StudentDiscount import StudentDiscount
+from ProductFactory import ProductFactory
 
 suppliers: dict[str, Supplier] = {} #allows several products to share the same supplier object
 
@@ -64,11 +65,13 @@ def add_product_menu(inventory: Inventory) -> None:
 
     product: Product
     if kind == "1":
-        weight = get_number("Weight (kg): ", float)
-        product = PhysicalProduct(product_id, name, price, stock, supplier, weight)
+        product_type = "physical"
+        extra = get_number("Weight (kg): ", float)
     else:
-        download_size = get_number("Download Size (MB): ", float)
-        product = DigitalProduct(product_id, name, price, stock, supplier, download_size)
+        product_type = "digital"
+        extra = get_number("Downlaod Size (MB): ", float)
+
+        product = ProductFactory.create(product_type, product_id, name, price, stock, supplier, extra)
 
     if inventory.add_product(product):
         print(f"\nProduct {product_id} added successfully.")
