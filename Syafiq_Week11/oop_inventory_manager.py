@@ -71,7 +71,11 @@ def add_product_menu(inventory: Inventory) -> None:
         product_type = "digital"
         extra = get_number("Downlaod Size (MB): ", float)
 
-        product = ProductFactory.create(product_type, product_id, name, price, stock, supplier, extra)
+        try:
+            product = ProductFactory.create(product_type, product_id, name, price, stock, supplier, extra)
+        except ValueError as error:
+            print(f"\nProduct not added: {error}")
+            return
 
     if inventory.add_product(product):
         print(f"\nProduct {product_id} added successfully.")
